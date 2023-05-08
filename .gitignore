@@ -1,18 +1,70 @@
-venv/
-
-*.pyc
+# Byte-compiled / optimized / DLL files
 __pycache__/
+*.py[cod]
+*$py.class
 
+# Local development files
 instance/
+*.env
+*.flaskenv
 
-.pytest_cache/
-.coverage
-htmlcov/
+# Logs
+*.log
 
+# Virtual environment
+venv/
+ENV/
+
+# Dependencies
+venv/
+env/
+env.bak/
+*.egg-info/
 dist/
 build/
+*.egg
+*.egg-info
+pip-log.txt
+pip-delete-this-directory.txt
+setuptools/
+lib/
+lib64/
+include/
+pyvenv.cfg
+.venv/
+.tox/
+.eggs/
+*.egg
 *.egg-info/
+.eggs/
+*.egg-info/
+pip-wheel-metadata/
+pip-egg-info/
 
-.DS_STORE
+# IDE files
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+*.bak
 
-.env
+# Compiled output
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.dll
+*.exe
+
+# Ignore all files in a directory named 'docs'
+/docs/*
+
+# Ignore a specific file in the root directory
+/requirements.txt
+
+# Ignore .env files except the example one
+!.env.example
+
+# Ignore migrations in the main application directory
+/migrations/
