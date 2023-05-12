@@ -11,15 +11,10 @@ class User(db.Model):
     city = db.Column(db.String(64), unique=False, nullable=False)
     state = db.Column(db.String(64), unique=False, nullable=False)
     zipcode = db.Column(db.String(20), unique=False, nullable=False)
-    is_my_address = db.Column(db.Boolean, default=False)
+    is_completed = db.Column(db.Boolean, default=False)
+    price = db.Column(db.Numeric(precision=10, scale=2), nullable=True)
+    rate = db.Column(db.String(255), unique=False, nullable=True)
 
     def __repr__(self):
         return f'{self.name}'
 
-# class Shipping(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-#     user = db.relationship("User", backref=db.backref("shippings", lazy=True))
-
-#     def __repr__(self):
-#         return f'{self.user.name}'

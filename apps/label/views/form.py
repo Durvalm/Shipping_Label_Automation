@@ -14,69 +14,17 @@ def render_form():
 @label_bp.route("/submit", methods=['POST'])
 def submit():
     """User submits shipping details form"""
-    name = request.form['name']
-    country = request.form['country']
-    street1 = request.form['street1']
-    street2 = request.form['street2']
-    state = request.form['state']
-    city = request.form['city']
-    zipcode = request.form['zipcode']
+    address_data = {key: request.form[key] for key in ['name', 'country', 'street1', 'street2', 'state', 'city', 'zipcode']}
+    address_to = shippo.Address.create(**address_data, validate=True)
 
-    user = User(name=name, country=country, street1=street1,
-    street2=street2, state=state, city=city, zipcode=zipcode)
-
-    db.session.add(user)
-    db.session.commit()
-
-    return render_template('success.html')
-
-
-
-
-# @label_bp.route("/submit", methods=['POST'])
-# def submit():
-#     """Test access to form"""
-#     name = request.form['name']
-#     country = request.form['country']
-#     street1 = request.form['street1']
-#     street2 = request.form['street2']
-#     state = request.form['state']
-#     city = request.form['city']
-#     zipcode = request.form['zipcode']
-
-#     address_from = ADDRESS_FROM
-#     parcel = PARCEL
-#     address_to = {
-#         "name": name,
-#         "street1": street1,
-#         "street2": street2,
-#         "city": city,
-#         "state": state,
-#         "zip": zipcode,
-#         "country": country,
-#     }
-
-#     shipment = shippo.Shipment.create(
-#     address_from = address_from,
-#     address_to = address_to,
-#     parcels = [parcel],
-#     create_shipping_label=False,
-#     is_async = False
-#     )
-
-#     usps_priority = ''
-#     for shipment_options in shipment.rates:
-#         if shipment_options["servicelevel"]["token"] == 'usps_priority':
-#             usps_priority = shipment_options
-
-
-#     transaction = shippo.Transaction.create(
-#         rate=usps_priority.object_id,
-#         label_file_type="PDF",
-#         create_shipping_label=False
-#     )
-  
-#     print(transaction)
-#     # Do something with the data
-#     return f"Success"
-
+    # if address is valid, create user
+    if address_to.validation_results.is_valid:
+        user = User(**address_data)
+        db.session.add(user)
+        db.session.commit()
+        return render_template('success.html')
+    # if not, throw error
+    else:
+        print("Address is not valid for shipping.")
+        # Display a message 
+        return redirect("/")

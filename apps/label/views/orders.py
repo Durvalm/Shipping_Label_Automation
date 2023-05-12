@@ -11,6 +11,11 @@ def dashboard():
     users = User.query.all()
     return render_template("dashboard.html", users=users)
 
+@dashboard_bp.route("/order/<int:user_id>", methods=["GET"])
+def order(user_id):
+    user = User.query.get(user_id)
+    return render_template("order.html", user=user)
+
 @dashboard_bp.route("/delete/<int:user_id>", methods=["DELETE"])
 def delete_order(user_id):
     user = User.query.get(user_id)
@@ -40,7 +45,6 @@ def create_label(user_id):
     address_from = address_from,
     address_to = address_to,
     parcels = [parcel],
-    create_shipping_label=False,
     is_async = False
     )
 
@@ -49,15 +53,40 @@ def create_label(user_id):
     for shipment_options in shipment.rates:
         if shipment_options["servicelevel"]["token"] == 'usps_priority':
             usps_priority = shipment_options
+    
+    # Store price
+    user.price = usps_priority.amount
+    user.rate = usps_priority.object_id
+    db.session.commit()
+ 
+    return redirect(url_for('dashboard.confirm_purchase', user_id=user.id))
 
-    # Performs the transaction
-    transaction = shippo.Transaction.create(
-        rate=usps_priority.object_id,
-        label_file_type="PDF",
-        create_shipping_label=False
-    )
+@dashboard_bp.route("/confirm-purchase/<int:user_id>", methods=["GET","POST"])
+def confirm_purchase(user_id):
+    user = User.query.get(user_id)
 
-    return redirect(url_for('dashboard.dashboard'))
+    if request.method == "POST":
+        transaction = shippo.Transaction.create(
+            rate=user.rate,
+            label_file_type="PDF"
+        )
+        # Confirm if transaction is successful
+        if transaction.object_state == "VALID":
+           print("SUCCESS")
+           # Print Label
+
+           # Delete order from DB
+           db.session.delete(user)
+           db.session.commit()           
+
+        elif transaction.object_state == "INVALID":
+            print('ERROR')
+            # Send error message
+        return redirect(url_for('dashboard.dashboard'))
+
+    elif request.method == "GET":
+        return render_template("confirm-purchase.html", user=user)
+    
 
 
 
