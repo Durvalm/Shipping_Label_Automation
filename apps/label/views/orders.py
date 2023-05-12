@@ -1,5 +1,6 @@
 from flask import Blueprint, request, render_template, redirect, url_for
 import shippo
+from apps.utils.alert import flash_message
 from apps.settings import SHIPPO_API_TOKEN, PARCEL, ADDRESS_FROM
 from apps.models import db, User
 
@@ -70,18 +71,19 @@ def confirm_purchase(user_id):
             rate=user.rate,
             label_file_type="PDF"
         )
+        print(transaction)
         # Confirm if transaction is successful
         if transaction.object_state == "VALID":
-           print("SUCCESS")
-           # Print Label
-
-           # Delete order from DB
-           db.session.delete(user)
-           db.session.commit()           
+            # Delete order from DB
+            db.session.delete(user)
+            db.session.commit()
+            # Success message
+            flash_message("Label was successfully created.", "success")           
 
         elif transaction.object_state == "INVALID":
-            print('ERROR')
             # Send error message
+            flash_message("There is an error with the address. Try again.", "error")
+
         return redirect(url_for('dashboard.dashboard'))
 
     elif request.method == "GET":

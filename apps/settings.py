@@ -1,6 +1,8 @@
 from os import environ
 
-SHIPPO_API_TOKEN = environ.get("SHIPPO_TEST")
+SECRET_KEY = environ.get("SECRET_KEY")
+
+SHIPPO_API_TOKEN = environ.get("SHIPPO_API_KEY")
 
 # DB
 SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URL', 'sqlite:///mydatabase.db')

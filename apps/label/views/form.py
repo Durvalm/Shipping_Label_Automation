@@ -1,4 +1,5 @@
-from flask import Blueprint, request, render_template, redirect
+from flask import Blueprint, request, render_template, redirect, flash
+from apps.utils.alert import flash_message
 import shippo
 from apps.settings import SHIPPO_API_TOKEN, PARCEL, ADDRESS_FROM
 from apps.models import db, User
@@ -25,6 +26,6 @@ def submit():
         return render_template('success.html')
     # if not, throw error
     else:
-        print("Address is not valid for shipping.")
+        flash_message("Address is not valid for shipping. Try again.", "warning")
         # Display a message 
         return redirect("/")
