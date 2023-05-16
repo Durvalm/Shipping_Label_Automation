@@ -1,4 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
+
 
 db = SQLAlchemy()
 
@@ -17,4 +19,15 @@ class User(db.Model):
 
     def __repr__(self):
         return f'{self.name}'
+
+class SuperUser(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(255), unique=False, nullable=False)
+    is_active = db.Column(db.Boolean, default=True)  
+    is_authenticated = db.Column(db.Boolean, default=True)  
+    is_anonymous = db.Column(db.Boolean, default=True)  
+
+    def get_id(self):
+            return str(self.id)
 

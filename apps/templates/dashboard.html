@@ -17,6 +17,7 @@
             <th scope="col">Name</th>
             <th scope="col">City</th>
             <th scope="col">State</th>
+            <th scope="col">Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -26,6 +27,7 @@
             <td><a class="btn btn-secondary" href='{{ url_for("dashboard.order", user_id=user.id) }}'>{{user.name}}</td></a>
             <td>{{user.city}}</td>
             <td>{{user.state}}</td>
+            <td><a class="btn-close text-decoration-none" href='{{ url_for("dashboard.delete_order", user_id=user.id) }}'></a></td>
           </tr>
           {% endif %}
           {% endfor %}
