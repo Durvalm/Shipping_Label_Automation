@@ -1,22 +1,30 @@
-from os import environ
+import os
 
-SECRET_KEY = environ.get("SECRET_KEY")
+# Get the absolute path of the Flask app directory
+app_dir = os.path.abspath(os.path.dirname(__file__))
+# Define the log file directory
+log_dir = os.path.join(app_dir, 'var', 'log', 'shippo')
+log_file_path = os.path.join(log_dir, 'logfile.log')
+os.makedirs(log_dir, exist_ok=True)
 
-SHIPPO_API_TOKEN = environ.get("SHIPPO_TEST")
+
+SECRET_KEY = os.environ.get("SECRET_KEY")
+
+SHIPPO_API_TOKEN = os.environ.get("SHIPPO_TEST")
 
 # DB
-SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URI', 'sqlite:///mydatabase.db')
+SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI', 'sqlite:///mydatabase.db')
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # Owner's info for "address from"
 ADDRESS_FROM = {
-    "name": environ.get("ADDRESS_FROM_NAME"),
-    "street1": environ.get("ADDRESS_FROM_STREET1"),
-    "street2": environ.get("ADDRESS_FROM_STREET2"),
-    "city": environ.get("ADDRESS_FROM_CITY"),
-    "state": environ.get("ADDRESS_FROM_STATE"),
-    "zip": environ.get("ADDRESS_FROM_ZIP"),
-    "country": environ.get("ADDRESS_FROM_COUNTRY"),
+    "name": os.environ.get("ADDRESS_FROM_NAME"),
+    "street1": os.environ.get("ADDRESS_FROM_STREET1"),
+    "street2": os.environ.get("ADDRESS_FROM_STREET2"),
+    "city": os.environ.get("ADDRESS_FROM_CITY"),
+    "state": os.environ.get("ADDRESS_FROM_STATE"),
+    "zip": os.environ.get("ADDRESS_FROM_ZIP"),
+    "country": os.environ.get("ADDRESS_FROM_COUNTRY"),
     }
  # Parcel standard info
 PARCEL = {
@@ -27,3 +35,5 @@ PARCEL = {
         "weight": "1",
         "mass_unit": "lb",
 }
+
+

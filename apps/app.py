@@ -6,6 +6,8 @@ from apps.label.views.form import label_bp
 from apps.label.views.orders import dashboard_bp
 from apps.auth.views import auth_bp
 from apps.models import db, SuperUser
+import logging
+from apps.settings import log_file_path
 
 # import settings
 app = Flask(__name__)
@@ -34,6 +36,9 @@ def load_user(user_id):
 
 login_manager.init_app(app)
 login_manager.login_view = 'auth.login'
+
+# Configure logging
+logging.basicConfig(filename=log_file_path, level=logging.ERROR)
 
 
 if __name__ == '__main__':
