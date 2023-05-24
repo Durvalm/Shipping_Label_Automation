@@ -10,6 +10,7 @@ from apps.models import db, SuperUser
 # import settings
 app = Flask(__name__)
 app.config.from_pyfile('settings.py')
+app.debug = True
 
 # register blueprints
 app.register_blueprint(label_bp)
