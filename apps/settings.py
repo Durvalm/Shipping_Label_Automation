@@ -3,10 +3,7 @@ import os
 # Get the absolute path of the Flask app directory
 app_dir = os.path.abspath(os.path.dirname(__file__))
 # Define the log file directory
-log_dir = os.path.join(app_dir, 'var', 'log', 'shippo')
-log_file_path = os.path.join(log_dir, 'logfile.log')
-os.makedirs(log_dir, exist_ok=True)
-
+log_file_path = '/var/log/shippo/app.log'  
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
