@@ -2,10 +2,10 @@ from flask import Flask
 from flask_migrate import Migrate
 from flask_login import LoginManager
 # shippo API app
-from .label.views.form import label_bp
-from .label.views.orders import dashboard_bp
-from .auth.views import auth_bp
-from .models import db, SuperUser
+from apps.label.views.form import label_bp
+from apps.label.views.orders import dashboard_bp
+from apps.auth.views import auth_bp
+from apps.models import db, SuperUser
 
 # import settings
 app = Flask(__name__)
