@@ -6,9 +6,8 @@ from apps.label.views.form import label_bp
 from apps.label.views.orders import dashboard_bp
 from apps.auth.views import auth_bp
 from apps.models import db, SuperUser
-
-from dotenv import load_dotenv
-load_dotenv('.env')
+import logging
+from logging.handlers import RotatingFileHandler
 
 # import settings
 app = Flask(__name__)
@@ -19,6 +18,9 @@ app.register_blueprint(label_bp)
 app.register_blueprint(dashboard_bp)
 app.register_blueprint(auth_bp)
 
+handler = RotatingFileHandler('app.log', maxBytes=10000, backupCount=1)
+handler.setLevel(logging.DEBUG)
+app.logger.addHandler(handler)
 
 # initialize database
 migrate = Migrate(app, db)
