@@ -1,14 +1,10 @@
 import os
 
-# Get the absolute path of the Flask app directory
-app_dir = os.path.abspath(os.path.dirname(__file__))
-# Define the log file directory
-log_file_path = '/var/log/shippo/app.log'  
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 SHIPPO_API_TOKEN = os.environ.get("SHIPPO_TEST")
-
+DEBUG = True
 # DB
 SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI', 'sqlite:///mydatabase.db')
 SQLALCHEMY_TRACK_MODIFICATIONS = False

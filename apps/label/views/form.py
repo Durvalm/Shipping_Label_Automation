@@ -27,5 +27,4 @@ def submit():
     # if not, throw error
     else:
         flash_message("Address is not valid for shipping. Try again.", "warning")
-        # Display a message 
         return redirect("/")
