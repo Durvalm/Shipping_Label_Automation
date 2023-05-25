@@ -9,10 +9,7 @@ from apps.models import db, SuperUser
 from apps.settings import dotenv_path
 import logging
 from logging.handlers import RotatingFileHandler
-from dotenv import load_dotenv
 
-load_dotenv(dotenv_path)
-print(dotenv_path)
 # import settings
 app = Flask(__name__)
 app.config.from_pyfile('settings.py')

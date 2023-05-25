@@ -1,8 +1,4 @@
-from pathlib import Path
 import os
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-dotenv_path = os.path.join(BASE_DIR, '.env')
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
