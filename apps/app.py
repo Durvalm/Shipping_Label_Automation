@@ -7,6 +7,8 @@ from apps.label.views.orders import dashboard_bp
 from apps.auth.views import auth_bp
 from apps.models import db, SuperUser
 
+from dotenv import load_dotenv
+load_dotenv('.env')
 
 # import settings
 app = Flask(__name__)
