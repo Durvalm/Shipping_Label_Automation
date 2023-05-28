@@ -100,20 +100,35 @@ def confirm_purchase(user_id):
         # Confirm if transaction is successful
         if transaction.object_state == "VALID":
             # Delete order from DB
-            user.is_completed = True
-            db.session.commit()
+            # user.is_completed = True
+            # db.session.commit()
             # Success message
-            flash_message("Label was successfully created.", "success")           
+            flash_message("Label was successfully created.", "success")   
+            return redirect(url_for('dashboard.retrieve_label', id=transaction.object_id, user_id=user_id))        
 
         elif transaction.object_state == "INVALID":
             # Send error message
             flash_message("There is an error with the address. Try again.", "error")
         return redirect(url_for('dashboard.dashboard'))
-        # return redirect(url_for('dashboard.print_label', id=transaction.object_id))
 
 
     elif request.method == "GET":
         return render_template("confirm-purchase.html", user=user)
+
+
+@dashboard_bp.route("/retrieve-label/<string:id>/<string:user_id>", methods=["GET"])
+def retrieve_label(id, user_id):
+    """Retrieves the label url and adds to the DB"""
+    time.sleep(3)
+    transaction = shippo.Transaction.retrieve(object_id=id)
+    print(transaction)
+    label_url = transaction.label_url
+
+    # Add to the DB
+    user = User.query.get(user_id)
+    user.label_url = label_url
+    db.session.commit()
+    return redirect(url_for('dashboard.dashboard'))
 
 
 # @dashboard_bp.route("/print-label/<string:id>", methods=["GET"])

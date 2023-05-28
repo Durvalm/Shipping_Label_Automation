@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
+from datetime import datetime
 
 
 db = SQLAlchemy()
@@ -16,6 +17,8 @@ class User(db.Model):
     is_completed = db.Column(db.Boolean, default=False)
     price = db.Column(db.Numeric(precision=10, scale=2), nullable=True)
     rate = db.Column(db.String(255), unique=False, nullable=True)
+    label_url = db.Column(db.Text, unique=True, nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=True)
 
     def __repr__(self):
         return f'{self.name}'

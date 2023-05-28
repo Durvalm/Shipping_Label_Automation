@@ -57,7 +57,10 @@
                 </div>
                 <input type="text" name="zipcode" class="form-control" value="{{user.zipcode}}" required>
             </div>
+            {% if not user.label_url %}
             <button type="submit" class="btn btn-success">Create Label</button>
+            {% else %}
+            {% endif %}
     </form>  
     </div>
 
