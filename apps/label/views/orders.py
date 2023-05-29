@@ -5,12 +5,8 @@ from apps.utils.alert import flash_message
 from apps.settings import SHIPPO_API_TOKEN, PARCEL, ADDRESS_FROM
 from apps.models import db, User
 
-# For printing functionality
 import time
-import requests
-import tempfile
-import subprocess
-import os
+
 
 shippo.config.api_key = SHIPPO_API_TOKEN
 dashboard_bp = Blueprint("dashboard", __name__, url_prefix="/dashboard")

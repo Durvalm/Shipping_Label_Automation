@@ -1,11 +1,17 @@
 import os
 
+# if os.environ.get('FLASK_ENV') == 'development':
+#     env_file = '.env'
+#     load_dotenv(env_file)
+
+# print(os.environ.get('FLASK_ENV'))
+
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 SHIPPO_API_TOKEN = os.environ.get("SHIPPO_TEST")
-DEBUG = True
+
 # DB
-SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'sqlite:///mydatabase.db')
+SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI', 'sqlite:///mydatabase.db')
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # Owner's info for "address from"
@@ -28,4 +34,4 @@ PARCEL = {
         "mass_unit": "lb",
 }
 
-
+print(SQLALCHEMY_DATABASE_URI)
