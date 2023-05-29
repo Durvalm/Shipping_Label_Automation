@@ -1,11 +1,11 @@
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-if os.environ.get('FLASK_ENV') == 'development':
-    env_file = '.env'
-else:
-    env_file = '.env.prod'
-load_dotenv(env_file)
+# if os.environ.get('FLASK_ENV') == 'development':
+#     env_file = '.env'
+# else:
+#     env_file = '.env.prod'
+# load_dotenv(env_file)
 
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
