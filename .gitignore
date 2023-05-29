@@ -65,6 +65,6 @@ pip-egg-info/
 
 # Ignore .env files except the example one
 !.env.example
-
+.env.prod
 # Ignore migrations in the main application directory
 /migrations/
