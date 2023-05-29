@@ -26,8 +26,12 @@ def order(user_id):
 @dashboard_bp.route("/delete/<int:user_id>", methods=["DELETE", "GET"])
 @login_required
 def delete_order(user_id):
+    """if label was purchased, set to complete, if not, delete from DB"""
     user = User.query.get(user_id)
-    db.session.delete(user)
+    if user.label_url:
+        user.is_completed = True
+    else:
+        db.session.delete(user)
     db.session.commit()
     return redirect(url_for('dashboard.dashboard'))
 
