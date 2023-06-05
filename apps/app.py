@@ -4,6 +4,8 @@ from flask_login import LoginManager
 # shippo API app
 from apps.label.views.form import label_bp
 from apps.label.views.orders import dashboard_bp
+from apps.label.views.transactions import transactions_bp
+
 from apps.auth.views import auth_bp
 from apps.models import db, SuperUser
 
@@ -18,7 +20,7 @@ app.config.from_pyfile('settings.py')
 app.register_blueprint(label_bp)
 app.register_blueprint(dashboard_bp)
 app.register_blueprint(auth_bp)
-
+app.register_blueprint(transactions_bp)
 
 # initialize database
 migrate = Migrate(app, db)

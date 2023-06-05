@@ -6,8 +6,6 @@
     <div class="container">
       <h1 class="text-center mt-5">Login</h1>
       <form method="POST" action="{{ url_for('auth.login') }}" class="mt-4">
-        <!-- Message -->
-        {% include 'utils/alert.html' %}
         <div class="form-group">
           <label for="email">Email:</label>
           <input type="email" id="email" name="email" class="form-control" required>

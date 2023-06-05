@@ -117,6 +117,7 @@ def confirm_purchase(user_id):
 
 
 @dashboard_bp.route("/retrieve-label/<string:id>/<string:user_id>", methods=["GET"])
+@login_required
 def retrieve_label(id, user_id):
     """Retrieves the label url and adds to the DB"""
     time.sleep(3)
