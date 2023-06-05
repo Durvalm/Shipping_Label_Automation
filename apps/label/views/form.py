@@ -25,7 +25,7 @@ def submit():
         user = User(**address_data)
         db.session.add(user)
         db.session.commit()
-        return render_template('success.html')
+        return render_template('utils/success.html')
     # if not, throw error
     else:
         flash_message("Address is not valid for shipping. Try again.", "warning")

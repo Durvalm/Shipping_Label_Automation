@@ -1,0 +1,24 @@
+
+{% extends 'base.html' %}
+{% block content %}
+
+<body>
+    <div class="container">
+      <h1 class="text-center mt-5">Login</h1>
+      <form method="POST" action="{{ url_for('auth.login') }}" class="mt-4">
+        <!-- Message -->
+        {% include 'utils/alert.html' %}
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+    </div>
+  </body>
+</html>
+{% endblock %}

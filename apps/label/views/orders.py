@@ -15,13 +15,13 @@ dashboard_bp = Blueprint("dashboard", __name__, url_prefix="/dashboard")
 @login_required
 def dashboard():
     users = User.query.filter_by(is_completed=False).order_by(User.created_at.desc()).all()
-    return render_template("dashboard.html", users=users)
+    return render_template("dashboard/dashboard.html", users=users)
 
 @dashboard_bp.route("/order/<int:user_id>", methods=["GET"])
 @login_required
 def order(user_id):
     user = User.query.get(user_id)
-    return render_template("order.html", user=user)
+    return render_template("dashboard/order.html", user=user)
 
 @dashboard_bp.route("/delete/<int:user_id>", methods=["DELETE", "GET"])
 @login_required
@@ -113,7 +113,7 @@ def confirm_purchase(user_id):
 
 
     elif request.method == "GET":
-        return render_template("confirm-purchase.html", user=user)
+        return render_template("dashboard/confirm-purchase.html", user=user)
 
 
 @dashboard_bp.route("/retrieve-label/<string:id>/<string:user_id>", methods=["GET"])

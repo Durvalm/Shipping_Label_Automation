@@ -9,7 +9,7 @@ auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 @auth_bp.route("/login", methods=["POST", "GET"])
 def login():
     if request.method == "GET":
-        return render_template("login.html")
+        return render_template("auth/login.html")
     
     email = request.form.get("email")
     password = request.form.get("password")
@@ -23,21 +23,21 @@ def login():
     return redirect(url_for("dashboard.dashboard"))
 
 
-@auth_bp.route('/create-superuser', methods=['POST', "GET"])
-def create_superuser():
-    """Endpoint should not be exposed, created superuser"""
-    if request.method == "GET":
-        return render_template("signup.html")
-    # code to validate and add user to database goes here
-    email = request.form.get('email')
-    password1 = request.form.get('password1')
-    password2 = request.form.get('password2')
+# @auth_bp.route('/create-superuser', methods=['POST', "GET"])
+# def create_superuser():
+#     """Endpoint should not be exposed, created superuser"""
+#     if request.method == "GET":
+#         return render_template("auth/signup.html")
+#     # code to validate and add user to database goes here
+#     email = request.form.get('email')
+#     password1 = request.form.get('password1')
+#     password2 = request.form.get('password2')
 
-    if password1 == password2:
-        # create a new user with the form data. Hash the password so the plaintext version isn't saved.
-        superuser = SuperUser(email=email, password=generate_password_hash(password1, method='sha256'))
-        # add the new user to the database
-        db.session.add(superuser)
-        db.session.commit()
+#     if password1 == password2:
+#         # create a new user with the form data. Hash the password so the plaintext version isn't saved.
+#         superuser = SuperUser(email=email, password=generate_password_hash(password1, method='sha256'))
+#         # add the new user to the database
+#         db.session.add(superuser)
+#         db.session.commit()
 
-    return redirect(url_for('auth.login'))
+#     return redirect(url_for('auth.login'))
