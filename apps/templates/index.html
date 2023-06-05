@@ -44,9 +44,12 @@
           <!-- Input group -->
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text">State *</span>
+                <label for="select-beast" class="input-group-text">State *</label>
               </div>
-              <input type="text" name="state" class="form-control" placeholder="" required>
+              <select class="form-select" id="select-state" name="state" placeholder="Pick a state...">
+              {% include 'state-dropdown.html' %}
+              </select>
+              <!-- <input type="text" name="state" class="form-control" placeholder="" required> -->
             <div class="input-group-prepend">
                 <span class="input-group-text">Postal code/zip *</span>
               </div>

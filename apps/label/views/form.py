@@ -15,7 +15,9 @@ def render_form():
 @label_bp.route("/submit", methods=['POST'])
 def submit():
     """User submits shipping details form"""
+    # Get data from form and fix the letter case
     address_data = {key: request.form[key].title() for key in ['name', 'country', 'street1', 'street2', 'state', 'city', 'zipcode']} 
+    address_data['state'] = address_data['state'].upper()
     address_to = shippo.Address.create(**address_data, validate=True)
 
     # if address is valid, create user
