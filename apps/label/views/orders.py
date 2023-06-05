@@ -14,7 +14,7 @@ dashboard_bp = Blueprint("dashboard", __name__, url_prefix="/dashboard")
 @dashboard_bp.route("/", methods=["GET"])
 @login_required
 def dashboard():
-    users = User.query.filter_by(is_completed=False).all()
+    users = User.query.filter_by(is_completed=False).order_by(User.created_at.desc()).all()
     return render_template("dashboard.html", users=users)
 
 @dashboard_bp.route("/order/<int:user_id>", methods=["GET"])
