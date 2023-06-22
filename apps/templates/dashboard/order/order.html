@@ -1,6 +1,39 @@
 {% extends 'base.html' %}
 {% include 'utils/navbar.html' %}
 {% block content %}
-<h5>Orders</h5>
-<p>This page is not yet available</p>
+
+<body>
+    <div class="container">
+      <h1 class="text-center py-2">Transactions</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">City</th>
+            <th scope="col">State</th>
+            <th scope="col">Date</th>
+            <th scope="col">Remove</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          {% if not user.is_completed %}
+          <tr>
+            <td><a class="btn btn-secondary" href='{{ url_for("dashboard.order", user_id=user.id) }}'>{{user.name}}</td></a>
+            <td>{{user.city}}</td>
+            <td>{{user.state}}</td>
+            <td>{{ user.created_at.strftime('%B %d, %Y')}}</td>
+              
+            <td><a class="btn-close text-decoration-none" href='{{ url_for("dashboard.delete_order", user_id=user.id) }}'></a></td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+
+  </body>
+
+
 {% endblock %}

@@ -15,7 +15,8 @@
       </div>
 
     <!-- Form -->
-    <form method="POST" action="{{url_for('dashboard.create_label', user_id=user.id )}}">
+    <form method="POST" action="{% if not user.label_url %}{{url_for('dashboard.create_label', user_id=user.id )}}
+                                  {% else %}{{ url_for('transactions.create_new_label') }}{% endif %}">
         <div class="mb-3">
             <label for="name">Name *</label>
             <input type="text" class="form-control" name="name" id="name" value="{{user.name}}" required>
@@ -57,6 +58,7 @@
             {% if not user.label_url %}
             <button type="submit" class="btn btn-success">Create Label</button>
             {% else %}
+            <button type="submit" class="btn btn-success">Create New Label</button>
             {% endif %}
     </form>  
     </div>

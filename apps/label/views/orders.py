@@ -4,6 +4,7 @@ import shippo
 from apps.utils.alert import flash_message
 from apps.settings import SHIPPO_API_TOKEN, PARCEL, ADDRESS_FROM
 from apps.models import db, User
+import requests
 
 import time
 
@@ -99,9 +100,6 @@ def confirm_purchase(user_id):
         )
         # Confirm if transaction is successful
         if transaction.object_state == "VALID":
-            # Delete order from DB
-            # user.is_completed = True
-            # db.session.commit()
             # Success message
             flash_message("Label was successfully created.", "success")   
             return redirect(url_for('dashboard.retrieve_label', id=transaction.object_id, user_id=user_id))        
@@ -131,6 +129,12 @@ def retrieve_label(id, user_id):
     db.session.commit()
     return redirect(url_for('dashboard.dashboard'))
 
+# @dashboard_bp.route("/test", methods=["POST", "GET"])
+# def test():
+#     url = 'https://1Z9MARES58053:841264GMJK0984A@secure.shippingapis.com/ShippingAPI.dll?API=CarrierPickupSchedule&XML=<CarrierPickupScheduleRequest USERID="1Z9MARES58053"><FirstName>Tayse</FirstName><LastName>Dantas</LastName><FirmName>Mare Shoes</FirmName><SuiteOrApt></SuiteOrApt><Address2>10336 Sw Green Turtle Ln</Address2><Urbanization></Urbanization><City>Port St Lucie</City><State>FL</State><ZIP5>34987</ZIP5><ZIP4></ZIP4><Phone>561-213-8644</Phone><Extension></Extension><Package><ServiceType>PriorityMail</ServiceType><Count>5</Count>  </Package><EstimatedWeight>5</EstimatedWeight><PackageLocation>Front Door</PackageLocation><SpecialInstructions></SpecialInstructions></CarrierPickupScheduleRequest>'
+#     response = requests.post(url)
+#     print(response.text)
+#     return response.text
 
 # @dashboard_bp.route("/print-label/<string:id>", methods=["GET"])
 # def print_label(id):
