@@ -6,12 +6,17 @@ from apps.settings import PARCEL, ADDRESS_FROM, SHIPPO_API_TOKEN
  
 shippo.config.api_key = SHIPPO_API_TOKEN
 
-transactions_bp = Blueprint("transactions", __name__, url_prefix="/dashboard")
+transactions_bp = Blueprint("transactions", __name__, url_prefix="/transactions")
 
-@transactions_bp.route("/transactions", methods=["GET",])
+@transactions_bp.route("", methods=["GET",])
 @login_required
 def transactions():
-    users = User.query.filter_by().order_by(User.created_at.desc()).all()
+    # If name is searched, display users with name
+    if request.args.get('name'):
+        users = User.query.filter(User.name.ilike(f"%{request.args.get('name')}%")).all()
+    # All users
+    else:
+        users = User.query.filter_by().order_by(User.created_at.desc()).all()
     return render_template("dashboard/order/order.html", users=users)
 
 @transactions_bp.route("/create-new-label", methods=["POST",])
@@ -57,5 +62,14 @@ def create_new_label():
     db.session.commit()
  
     return redirect(url_for('dashboard.confirm_purchase', user_id=user.id))
+
+
+@transactions_bp.route("/search", methods=["POST",])
+@login_required
+def search_order():
+    name = request.form["name"]
+    query_params = {'name': name}
+    return redirect(url_for('transactions.transactions', **query_params))
+  
 
 
