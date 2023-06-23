@@ -12,12 +12,16 @@ transactions_bp = Blueprint("transactions", __name__, url_prefix="/transactions"
 @transactions_bp.route("", methods=["GET",])
 @login_required
 def transactions():
+    # Pagination 
+    page = request.args.get('page', 1, type=int)
+
     # If name is searched, display users with name
     if request.args.get('name'):
-        users = User.query.filter(User.name.ilike(f"%{request.args.get('name')}%")).all()
+        users = User.query.filter(User.name.ilike(f"%{request.args.get('name')}%")).paginate(page=page, per_page=20)
     # All users
     else:
-        users = User.query.filter_by().order_by(User.created_at.desc()).all()
+        users = User.query.order_by(User.created_at.desc()).paginate(page=page, per_page=20)
+    
     return render_template("dashboard/order/order.html", users=users)
 
 @transactions_bp.route("/create-new-label", methods=["POST",])
@@ -50,4 +54,13 @@ def remove_order(user_id):
     db.session.delete(user)
     db.session.commit()
     return redirect(url_for('transactions.transactions'))
+
+# @transactions_bp.route("/temp", methods=["POST", "DELETE", "GET"])
+# @login_required
+# def temp():
+#     users = User.query.filter_by(created_at=None).all()
+#     for user in users:
+#         db.session.delete(user)
+#         db.session.commit()
+#     return redirect(url_for('transactions.transactions'))
 
