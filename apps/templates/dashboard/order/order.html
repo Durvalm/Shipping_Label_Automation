@@ -23,14 +23,15 @@
         </thead>
         <tbody>
           {% for user in users %}
-          {% if not user.is_completed %}
+          {% if user.created_at %}
           <tr>
             <td><a class="btn btn-secondary" href='{{ url_for("dashboard.order", user_id=user.id) }}'>{{user.name}}</td></a>
             <td>{{user.city}}</td>
             <td>{{user.state}}</td>
             <td>{{ user.created_at.strftime('%B %d, %Y')}}</td>
               
-            <td><a class="btn-close text-decoration-none" href='{{ url_for("dashboard.delete_order", user_id=user.id) }}'></a></td>
+            <td><a class="btn-close text-decoration-none" href='{{ url_for("transactions.remove_order", user_id=user.id) }}'
+                onclick="return confirm('Are you sure? Deleting in here will delete the record forever.');"></a></td>
           </tr>
           {% endif %}
           {% endfor %}

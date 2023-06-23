@@ -43,4 +43,11 @@ def search_order():
     return redirect(url_for('transactions.transactions', **query_params))
   
 
+@transactions_bp.route("/remove/<int:user_id>", methods=["POST", "DELETE", "GET"])
+@login_required
+def remove_order(user_id):
+    user = User.query.get(user_id)
+    db.session.delete(user)
+    db.session.commit()
+    return redirect(url_for('transactions.transactions'))
 
