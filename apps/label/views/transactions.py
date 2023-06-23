@@ -3,6 +3,7 @@ from flask_login import login_required
 from apps.models import db, User
 import shippo
 from apps.settings import PARCEL, ADDRESS_FROM, SHIPPO_API_TOKEN
+from .orders import create_shipping, create_shipping_service
  
 shippo.config.api_key = SHIPPO_API_TOKEN
 
@@ -28,38 +29,8 @@ def create_new_label():
     db.session.add(user)
     db.session.commit()
     
-    # Shipping information
-    address_from = ADDRESS_FROM
-    parcel = PARCEL
-    address_to = {
-        "name": user.name,
-        "street1": user.street1,
-        "street2": user.street2,
-        "city": user.city,
-        "state": user.state,
-        "zip": user.zipcode,
-        "country": user.country,
-    }
-
-    # Creates Shipping
-    shipment = shippo.Shipment.create(
-    address_from=address_from,
-    address_to=address_to,
-    object_purpose="PURCHASE",
-    parcels=[parcel],
-    is_async=False
-    )
-
-    # Makes sure the service used is USPS_PRIORITY
-    usps_priority = ''
-    for shipment_options in shipment.rates:
-        if shipment_options["servicelevel"]["token"] == 'usps_priority':
-            usps_priority = shipment_options
-    
-    # Store price
-    user.price = usps_priority.amount
-    user.rate = usps_priority.object_id
-    db.session.commit()
+    shipment = create_shipping(user)
+    create_shipping_service(user, shipment)
  
     return redirect(url_for('dashboard.confirm_purchase', user_id=user.id))
 

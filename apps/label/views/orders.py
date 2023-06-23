@@ -49,39 +49,9 @@ def create_label(user_id):
         setattr(user, key, value)
     db.session.commit()
 
-
-    # Shipping information
-    address_from = ADDRESS_FROM
-    parcel = PARCEL
-    address_to = {
-        "name": user.name,
-        "street1": user.street1,
-        "street2": user.street2,
-        "city": user.city,
-        "state": user.state,
-        "zip": user.zipcode,
-        "country": user.country,
-    }
-
-    # Creates Shipping
-    shipment = shippo.Shipment.create(
-    address_from=address_from,
-    address_to=address_to,
-    object_purpose="PURCHASE",
-    parcels=[parcel],
-    is_async=False
-    )
-
-    # Makes sure the service used is USPS_PRIORITY
-    usps_priority = ''
-    for shipment_options in shipment.rates:
-        if shipment_options["servicelevel"]["token"] == 'usps_priority':
-            usps_priority = shipment_options
-    
-    # Store price
-    user.price = usps_priority.amount
-    user.rate = usps_priority.object_id
-    db.session.commit()
+    shipment = create_shipping(user)
+    create_shipping_service(user, shipment)
+     
  
     return redirect(url_for('dashboard.confirm_purchase', user_id=user.id))
 
@@ -120,7 +90,6 @@ def retrieve_label(id, user_id):
     """Retrieves the label url and adds to the DB"""
     time.sleep(3)
     transaction = shippo.Transaction.retrieve(object_id=id)
-    print(transaction)
     label_url = transaction.label_url
 
     # Add to the DB
@@ -128,6 +97,41 @@ def retrieve_label(id, user_id):
     user.label_url = label_url
     db.session.commit()
     return redirect(url_for('dashboard.dashboard'))
+
+def create_shipping(user):
+    # Shipping information
+    address_from = ADDRESS_FROM
+    parcel = PARCEL
+    address_to = {
+        "name": user.name,
+        "street1": user.street1,
+        "street2": user.street2,
+        "city": user.city,
+        "state": user.state,
+        "zip": user.zipcode,
+        "country": user.country,
+    }
+     # Creates Shipping
+    shipment = shippo.Shipment.create(
+    address_from=address_from,
+    address_to=address_to,
+    object_purpose="PURCHASE",
+    parcels=[parcel],
+    is_async=False
+    )
+    return shipment
+
+def create_shipping_service(user, shipment):
+ # Makes sure the service used is USPS_PRIORITY
+    usps_priority = ''
+    for shipment_options in shipment.rates:
+        if shipment_options["servicelevel"]["token"] == 'usps_priority':
+            usps_priority = shipment_options
+    
+    # Store price
+    user.price = usps_priority.amount
+    user.rate = usps_priority.object_id
+    db.session.commit()
 
 # @dashboard_bp.route("/test", methods=["POST", "GET"])
 # def test():
