@@ -17,6 +17,8 @@ ADDRESS_FROM = {
     "state": os.environ.get("ADDRESS_FROM_STATE"),
     "zip": os.environ.get("ADDRESS_FROM_ZIP"),
     "country": os.environ.get("ADDRESS_FROM_COUNTRY"),
+    "email": os.environ.get("ADDRESS_FROM_EMAIL"),
+    "phone": os.environ.get("ADDRESS_FROM_PHONE")
     }
  # Parcel standard info
 PARCEL = {
