@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+{% include 'utils/navbar.html' %}
+
+<body>
+    <div class="container">
+      <h1 class="text-center py-2">Invoices</h1>
+      <a class="btn btn-primary" href="{{ url_for('payments.invoice_form') }}">Create invoice</a>
+    </div>
+  </body>
+{% endblock %}

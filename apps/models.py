@@ -34,3 +34,16 @@ class SuperUser(db.Model, UserMixin):
     def get_id(self):
             return str(self.id)
 
+class Invoice(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=False, nullable=False)
+    price = db.Column(db.Numeric(precision=10, scale=2), nullable=True)
+    images = db.relationship('Image', backref='invoice', lazy=True)
+
+class Image(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    invoice_id = db.Column(db.Integer, db.ForeignKey('invoice.id'), nullable=False)
+    url = db.Column(db.String(255), nullable=True)  # Store the image URL or file path
+
+
+   
