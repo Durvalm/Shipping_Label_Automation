@@ -1,14 +1,16 @@
-from flask import Blueprint, request, render_template, redirect, flash
+from flask import Blueprint, request, render_template, redirect, flash, url_for
 from apps.utils.alert import flash_message
 import shippo
 from apps.settings import SHIPPO_API_TOKEN, PARCEL, ADDRESS_FROM
 from apps.models import db, User
+from flask_login import login_required
 
 shippo.config.api_key = SHIPPO_API_TOKEN
 label_bp = Blueprint("/", __name__)
 
 # Endpoints
 @label_bp.route("/")
+@login_required
 def render_form():
     return render_template('index.html')
 
@@ -25,7 +27,9 @@ def submit():
         user = User(**address_data)
         db.session.add(user)
         db.session.commit()
-        return render_template('utils/success.html')
+
+        flash_message("Created successfully.", "success")
+        return redirect(url_for('dashboard.dashboard'))
     # if not, throw error
     else:
         flash_message("Address is not valid for shipping. Try again.", "warning")

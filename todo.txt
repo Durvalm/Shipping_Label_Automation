@@ -1,0 +1,11 @@
+To DO:
+
+- Yesteday :
+- made images and invoices be saved on DB
+
+- Today :
+- Create list of invoices.
+- Create page where admin can check price and images, and generate link for payment.
+- Create page where client can check images and pay.
+- Configure handle_payment function for payment processing to work.
+- Create Stripe Account for mom
